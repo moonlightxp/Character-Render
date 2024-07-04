@@ -1,4 +1,10 @@
 
 /Character-Render/Library
 /Character-Render/Logs
+/Character-Render/.idea
+/Character-Render/obj
+/Character-Render/.local
+/Character-Render/*.csproj
+/Character-Render/*.sln
 /Character-Render/Temp
+Character-Render/UserSettings/Layouts/default-2022.dwlt
