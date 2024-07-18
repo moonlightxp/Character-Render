@@ -38,7 +38,7 @@ float3 LUT_SSS_GammaToLinear(Texture2D sssMap, SAMPLER(sampleName), float3 SSS, 
         half2 SSS_UV = half2(HalfLambert * (shadow * 0.5 + 0.5), SSS_Thickness);
         //SSS_LUT贴图采样
         SSS = SAMPLE_TEXTURE2D(sssMap, sampleName, SSS_UV).rgb;
-        SSS = GammaToLinearSpace(SSS);
+        // SSS = GammaToLinearSpace(SSS);
     }
     else
     {
@@ -61,7 +61,7 @@ float3 LUT_SSS_GammaToLinear(Texture2D sssMap, SAMPLER(sampleName), float NdotL,
     half2 SSS_UV = half2(HalfLambert, mask);
     //SSS_LUT贴图采样
     float3 SSS = SAMPLE_TEXTURE2D(sssMap, sampleName, SSS_UV).rgb;
-    SSS = GammaToLinearSpace(SSS);
+    // SSS = GammaToLinearSpace(SSS);
     return SSS;
 }
 #endif

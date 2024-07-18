@@ -79,6 +79,7 @@
     <None Include="Library\PackageCache\com.unity.shadergraph@14.0.8\package.json" />
     <None Include="Library\PackageCache\com.unity.feature.development@1.0.1\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.unityanalytics@1.0.0\package.json" />
+    <None Include="Assets\Shader\NewUnlitShader.shader" />
     <None Include="Library\PackageCache\com.unity.ide.rider@3.0.31\package.json" />
     <None Include="Library\PackageCache\com.unity.searcher@4.9.2\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.video@1.0.0\package.json" />

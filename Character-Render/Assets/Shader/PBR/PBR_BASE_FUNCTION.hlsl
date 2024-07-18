@@ -44,7 +44,7 @@ half4 frag (Varings input) : SV_Target
     half4 GMA = SAMPLE_TEXTURE2D(_GMAMap, sampler_MainTex, input.uv);
     half3 SLD = SAMPLE_TEXTURE2D(_SLDMap, sampler_MainTex, input.uv).rgb;
     half4 albedo = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
-    albedo = half4(GammaToLinearSpace(albedo.rgb), albedo.a);
+    // albedo = half4(GammaToLinearSpace(albedo.rgb), albedo.a);
     half3 Emission_Var = SAMPLE_TEXTURE2D(_EmissionMap, sampler_MainTex, input.uv).rgb * _EmissionColor.rgb;
     // float3 worldNormal = GetNormalFromNormalTexture(_BumpMap, sampler_MainTex, input.uv, _BumpScale, TBN);
     float4 normalTexture = SAMPLE_TEXTURE2D(_BumpMap, sampler_MainTex, input.uv);
@@ -57,16 +57,18 @@ half4 frag (Varings input) : SV_Target
     half Metallic = GMA.g * _Metallic;
 
     //------------常用属性的计算------------
-    float3 worldHalfDir = normalize(light.direction + viewDirWS);
+    float3 worldHalfDir = normalize(mainLight.direction + viewDirWS);
     #if defined(_CULLOFF_ON) 
         half NdotV = DotSafeCullOff(worldNormal, viewDirWS);
     #else
         half NdotV = DotSafe(worldNormal,viewDirWS);
     #endif
     half NdotH = DotSafe(worldNormal,worldHalfDir);
-    half LdotH = DotSafe(light.direction,worldHalfDir);
-    half NdotL = DotSafe(worldNormal,light.direction);
-    NdotL = NdotL * _Hardness + (1.0 - _Hardness);
+    half LdotH = DotSafe(mainLight.direction,worldHalfDir);
+    // half NdotL = DotSafe(worldNormal,mainLight.direction);
+    half NdotL = dot(worldNormal,mainLight.direction);
+    half halfLambert = NdotL * _Hardness + (1.0 - _Hardness);
+    // shadowAtten *= NdotL;
     
     //------------一个控制AO和辅光在AO中强度的参数------------
     half2 AO_col = half2(1.0, 1.0) - half2(_AOStrength, _BrightnessInOcclusion);
@@ -100,7 +102,7 @@ half4 frag (Varings input) : SV_Target
     float2 MatCapUV = normalVS.xy * 0.5 + 0.5;
     float3 MatCap = SAMPLE_TEXTURE2D_LOD(_MatCapTex, sampler_LinearClamp, MatCapUV, lod).rgb;
     MatCap *= _MatCapColor.rgb;//MatCap颜色倾向
-    MatCap = GammaToLinearSpace(MatCap);
+    // MatCap = GammaToLinearSpace(MatCap);
     MatCap *= AO_col.x;//AO控制MatCap强度
     
     //------------SSS部分的计算------------
@@ -117,14 +119,14 @@ half4 frag (Varings input) : SV_Target
     //------------LOL各向异性高光，使用贴图控制高光方向------------
     #if defined (_ANISOTROPIC_ON) && !defined(_UVANISOTROPIC_ON)
         diff = AnisotropyByTex(_TangentNormalMap, _HairDataMap, sampler_LinearClamp, worldNormal, worldHalfDir, diff,
-            _PrimarySpecularColor, _SecondarySpecularColor, input.uv, _PrimarySpecularShift, _SecondarySpecularShift, _PrimarySpecularExponent, _SecondarySpecularExponent, NdotL, shadowAtten);
+            _PrimarySpecularColor, _SecondarySpecularColor, input.uv, _PrimarySpecularShift, _SecondarySpecularShift, _PrimarySpecularExponent, _SecondarySpecularExponent, halfLambert, shadowAtten);
         specTerm = 0.0;
     #endif
 
     //------------LOL各向异性高光，使用UV控制控制高光方向------------
     #if defined (_UVANISOTROPIC_ON) && !defined(_ANISOTROPIC_ON)
         diff = AnisotropyByUV(_HairDataMap, sampler_LinearClamp, input.bitangentWS.xyz, worldNormal, worldHalfDir, diff,
-            _PrimarySpecularColor, _SecondarySpecularColor, input.uv, _PrimarySpecularShift, _SecondarySpecularShift, _PrimarySpecularExponent, _SecondarySpecularExponent, NdotL, shadowAtten);
+            _PrimarySpecularColor, _SecondarySpecularColor, input.uv, _PrimarySpecularShift, _SecondarySpecularShift, _PrimarySpecularExponent, _SecondarySpecularExponent, halfLambert, shadowAtten);
         specTerm = 0.0;
     #endif
 
@@ -138,8 +140,8 @@ half4 frag (Varings input) : SV_Target
         float3 finalColor = (MatCap * surfaceReduction * FresnelLerp) + (diff + specTerm * specColor) * SSS * mainLight.color + (diff * FinalAmbientCol);
         //float3 finalColor = GetPBR(Roughness, Metallic, SSS, NdotH, NdotV, LdotH, oneMinesReflectivity, shadowAtten, MatCap, mainLight.color, _Color, albedo);
     #else
-        float3 finalColor = (MatCap * surfaceReduction * FresnelLerp) + (diff + specTerm * specColor) * NdotL * mainLight.color * shadowAtten + (diff * FinalAmbientCol);
-        //float3 finalColor =  GetPBR(Roughness, Metallic, NdotL, NdotH, NdotV, LdotH, oneMinesReflectivity, shadowAtten, MatCap, mainLight.color, _Color, albedo);
+        float3 finalColor = (MatCap * surfaceReduction * FresnelLerp) + (diff + specTerm * specColor) * halfLambert * mainLight.color * shadowAtten + (diff * FinalAmbientCol);
+        //float3 finalColor =  GetPBR(Roughness, Metallic, halfLambert, NdotH, NdotV, LdotH, oneMinesReflectivity, shadowAtten, MatCap, mainLight.color, _Color, albedo);
     #endif
 
     // finalColor = shadowAtten;
@@ -151,7 +153,7 @@ half4 frag (Varings input) : SV_Target
 	half luminance = 0.2125 * finalBRDF.r + 0.7154 * finalBRDF.g + 0.0721 * finalBRDF.b;
 	half3 luminanceColor = half3(luminance, luminance, luminance);
 	finalBRDF = lerp(luminanceColor, finalBRDF, _Saturation);
-    finalBRDF = LinearToGammaSpace(finalBRDF);
+    // finalBRDF = LinearToGammaSpace(finalBRDF);
 
     //------------侧光计算------------
     float RakingSoft = max(_CustomLightDir2Softness, 1.0);
