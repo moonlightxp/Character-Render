@@ -54,8 +54,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: acc3f984b37cced4fbe5d33f21616f62, type: 3}
+        m_Scale: {x: 100, y: 100}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
@@ -140,6 +140,7 @@ Material:
     - _Denier: 25
     - _Denier_Toggle: 0
     - _DetailAlbedoMapScale: 1
+    - _DetailBumpScale: 0.28
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0

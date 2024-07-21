@@ -18,7 +18,8 @@ half3 BlendNormals(half3 n1, half3 n2)
 Varings vert (Attributes input)
 {
     Varings output;
-    output.uv = input.uv;
+    output.uv1 = input.uv;
+    output.uv2 = TRANSFORM_TEX(input.uv, _DetailNormalMap);
     output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
     output.positionWS = TransformObjectToWorld(input.positionOS.xyz);
     output.normalWS = TransformObjectToWorldNormal(input.normalOS);
@@ -46,20 +47,20 @@ half4 frag (Varings input) : SV_Target
     float shadowAtten = mainLight.shadowAttenuation * mainLight.distanceAttenuation;//光影相关
 
     //------------贴图的采样------------
-    half4 GMA = SAMPLE_TEXTURE2D(_GMAMap, sampler_MainTex, input.uv);
-    half3 SLD = SAMPLE_TEXTURE2D(_SLDMap, sampler_MainTex, input.uv).rgb;
-    half4 albedo = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
+    half4 GMA = SAMPLE_TEXTURE2D(_GMAMap, sampler_MainTex, input.uv1);
+    half3 SLD = SAMPLE_TEXTURE2D(_SLDMap, sampler_MainTex, input.uv1).rgb;
+    half4 albedo = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv1);
     // albedo = half4(GammaToLinearSpace(albedo.rgb), albedo.a);
-    half3 Emission_Var = SAMPLE_TEXTURE2D(_EmissionMap, sampler_MainTex, input.uv).rgb * _EmissionColor.rgb;
+    half3 Emission_Var = SAMPLE_TEXTURE2D(_EmissionMap, sampler_MainTex, input.uv1).rgb * _EmissionColor.rgb;
     // float3 worldNormal = GetNormalFromNormalTexture(_BumpMap, sampler_MainTex, input.uv, _BumpScale, TBN);
-    float4 normalTexture = SAMPLE_TEXTURE2D(_BumpMap, sampler_MainTex, input.uv);
+    float4 normalTexture = SAMPLE_TEXTURE2D(_BumpMap, sampler_MainTex, input.uv1);
     // normalTexture.rgb = UnpackNormalScale(normalTexture, _BumpScale);
     normalTexture.rgb = UnpackNormalRG(normalTexture, _BumpScale);
     // float3 worldNormal = normalize(mul(normalTexture.xyz, TBN));
 
     // 细节法线
-    float4 detailNormalTex = SAMPLE_TEXTURE2D(_DetailNormalMap, sampler_MainTex, input.uv);
-    detailNormalTex.rgb = UnpackNormalRG(detailNormalTex, _BumpScale);
+    float4 detailNormalTex = SAMPLE_TEXTURE2D(_DetailNormalMap, sampler_DetailNormalMap, input.uv2);
+    detailNormalTex.rgb = UnpackNormalRG(detailNormalTex, _DetailBumpScale);
     // float3 detailNormal = normalize(mul(detailNormalTex.xyz, TBN));
 
     float3 worldNormal = BlendNormals(normalTexture.rgb, detailNormalTex.rgb);
@@ -139,7 +140,7 @@ half4 frag (Varings input) : SV_Target
     //------------LOL各向异性高光，使用UV控制控制高光方向------------
     #if defined (_UVANISOTROPIC_ON) && !defined(_ANISOTROPIC_ON)
         diff = AnisotropyByUV(_HairDataMap, sampler_LinearClamp, input.bitangentWS.xyz, worldNormal, worldHalfDir, diff,
-            _PrimarySpecularColor, _SecondarySpecularColor, input.uv, _PrimarySpecularShift, _SecondarySpecularShift, _PrimarySpecularExponent, _SecondarySpecularExponent, halfLambert, shadowAtten);
+            _PrimarySpecularColor, _SecondarySpecularColor, input.uv1, _PrimarySpecularShift, _SecondarySpecularShift, _PrimarySpecularExponent, _SecondarySpecularExponent, halfLambert, shadowAtten);
         specTerm = 0.0;
     #endif
 

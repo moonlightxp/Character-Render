@@ -49,6 +49,7 @@ public class PBR_Base_Urp_Inspector : ShaderGUI
     private MaterialProperty _BumpMap;
     private MaterialProperty _DetailNormalMap;
     private MaterialProperty _BumpScale;
+    private MaterialProperty _DetailBumpScale;
     //PBR
     private MaterialProperty _GMAMap;
     private MaterialProperty _Metallic;
@@ -118,6 +119,7 @@ public class PBR_Base_Urp_Inspector : ShaderGUI
         _BumpMap = FindProperty("_BumpMap", properties);
         _DetailNormalMap = FindProperty("_DetailNormalMap", properties);
         _BumpScale = FindProperty("_BumpScale", properties);
+        _DetailBumpScale = FindProperty("_DetailBumpScale", properties);
         //PBR
         _GMAMap = FindProperty("_GMAMap", properties);
         _Metallic = FindProperty("_Metallic", properties);
@@ -329,8 +331,9 @@ public class PBR_Base_Urp_Inspector : ShaderGUI
         //法线
         Line();
         m_MaterialEditor.TexturePropertySingleLine(Styles.bumpMapText, _BumpMap);
-        m_MaterialEditor.TexturePropertySingleLine(Styles.detailBumpMapText, _DetailNormalMap);
         m_MaterialEditor.ShaderProperty(_BumpScale, "     法线强度");
+        m_MaterialEditor.TexturePropertySingleLine(Styles.detailBumpMapText, _DetailNormalMap);
+        m_MaterialEditor.ShaderProperty(_DetailBumpScale, "     细节法线强度");
         //自发光
         Line();
         m_MaterialEditor.TexturePropertySingleLine(Styles.emissionMapText, _EmissionMap);

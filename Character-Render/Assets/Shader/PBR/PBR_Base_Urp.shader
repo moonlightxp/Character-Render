@@ -8,6 +8,7 @@ Shader "SURender/URP/PBR_Base"
         _BumpMap ("法线贴图", 2D) = "bump" {}
         _DetailNormalMap ("细节法线贴图", 2D) = "bump" {}
         _BumpScale("法线强度", Float) = 1.0
+        _DetailBumpScale("法线强度", Float) = 1.0
         //功能贴图(金属度，光滑度。AO)
         _GMAMap ("功能贴图 (光滑度 / 金属度 / AO)", 2D) = "white" {}
         _Smoothness("光滑度", Range(0.0, 0.99)) = 0.99

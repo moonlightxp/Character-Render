@@ -27,7 +27,7 @@ Varings vert(Attributes input)
     Varings output;
                     
     output.positionCS = ApplyShadowBias(input, _LightDirection);
-    output.uv = input.uv;
+    output.uv1 = input.uv;
     output.positionWS = TransformObjectToWorld(input.positionOS.xyz);
     output.normalWS = TransformObjectToWorldNormal(input.normalOS);
     output.tangentWS.xyz = normalize(TransformObjectToWorldDir(input.tangentOS.xyz));
@@ -40,7 +40,7 @@ Varings vert(Attributes input)
 real4 frag(Varings input) : SV_Target
 {
     #if _ALPHATEST_ON
-    half4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
+    half4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv1);
     clip(col.a - _Cutoff);
     #endif
     return 0;

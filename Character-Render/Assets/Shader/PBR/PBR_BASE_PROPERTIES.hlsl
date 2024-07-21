@@ -12,11 +12,12 @@ struct Attributes
 struct Varings
 {
     float4 positionCS : SV_POSITION;
-    float2 uv : TEXCOORD0;
-    float3 normalWS : TEXCOORD1;
-    float4 tangentWS : TEXCOORD2;
-    float3 bitangentWS : TEXCOORD3;
-    float3 positionWS : TEXCOORD4;
+    float2 uv1 : TEXCOORD0;
+    float2 uv2 : TEXCOORD1;
+    float3 normalWS : TEXCOORD2;
+    float4 tangentWS : TEXCOORD3;
+    float3 bitangentWS : TEXCOORD4;
+    float3 positionWS : TEXCOORD5;
 };
 
 // CBUFFER_START(UnityPerMaterial)
@@ -31,6 +32,7 @@ TEXTURE2D(_MatCapTex);
 
 SAMPLER(sampler_LinearClamp);
 SAMPLER(sampler_MainTex);
+SAMPLER(sampler_DetailNormalMap);
 
 #ifdef _SSS_ON
     TEXTURE2D(_SSSMap);
@@ -77,6 +79,7 @@ SAMPLER(sampler_MainTex);
 
 half4 _Color;
 half _BumpScale;
+half _DetailBumpScale;
 half _Cutoff;
 half4 _EmissionColor;
 half4 _AmbientColor;
@@ -100,6 +103,8 @@ half4 _LightColor0;
 
 float3 _LightDirection;
 float4 _ShadowBias;
+
+float4 _DetailNormalMap_ST;
 // CBUFFER_END
 
 #endif
