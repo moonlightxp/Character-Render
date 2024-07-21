@@ -151,7 +151,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Hardness: 1
+    - _Hardness: 0.51
     - _LaserIntensity: 0.5
     - _Laser_Toggle: 0
     - _LightMode: 0

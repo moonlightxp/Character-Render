@@ -10,6 +10,11 @@ half3 UnpackNormalRG(half4 packedNormal, half scale = 1.0)
     return normal;
 }
 
+half3 BlendNormals(half3 n1, half3 n2)
+{
+    return normalize(half3(n1.xy + n2.xy, n1.z*n2.z));
+}
+
 Varings vert (Attributes input)
 {
     Varings output;
@@ -50,7 +55,15 @@ half4 frag (Varings input) : SV_Target
     float4 normalTexture = SAMPLE_TEXTURE2D(_BumpMap, sampler_MainTex, input.uv);
     // normalTexture.rgb = UnpackNormalScale(normalTexture, _BumpScale);
     normalTexture.rgb = UnpackNormalRG(normalTexture, _BumpScale);
-    float3 worldNormal = normalize(mul(normalTexture.xyz, TBN));
+    // float3 worldNormal = normalize(mul(normalTexture.xyz, TBN));
+
+    // 细节法线
+    float4 detailNormalTex = SAMPLE_TEXTURE2D(_DetailNormalMap, sampler_MainTex, input.uv);
+    detailNormalTex.rgb = UnpackNormalRG(detailNormalTex, _BumpScale);
+    // float3 detailNormal = normalize(mul(detailNormalTex.xyz, TBN));
+
+    float3 worldNormal = BlendNormals(normalTexture.rgb, detailNormalTex.rgb);
+    worldNormal = normalize(mul(worldNormal, TBN));
 
     //------------粗糙度, 金属度, SSS厚度, 的计算和控制------------
     half Roughness = 1.0h - GMA.r * _Smoothness;

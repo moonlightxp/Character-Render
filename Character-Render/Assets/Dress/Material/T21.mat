@@ -24,7 +24,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 8c2c51301fa13604e88097c134fc5e16, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _CULLOFF_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -134,7 +135,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Cull: 2
+    - _Cull: 0
     - _CustomLightDir2Softness: 1
     - _Cutoff: 0.5
     - _Denier: 25

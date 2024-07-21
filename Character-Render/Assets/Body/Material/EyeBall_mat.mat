@@ -26,6 +26,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - DetailBumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: a6dbc5ef3be49db47919ee48e43196dd, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -38,20 +42,24 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DetailBumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 1d45f5ebf46f7ee4daa85be05e2b858a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 79799beb9892ed94eb60e7987a824a09, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GMAMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d712d9f87dde5234584ec22a875639d0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HairDataMap:
@@ -140,7 +148,7 @@ Material:
     - _LaserIntensity: 0.5
     - _Laser_Toggle: 0
     - _LightMode: 0
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -153,7 +161,7 @@ Material:
     - _Saturation: 1
     - _SecondarySpecularExponent: 0
     - _SecondarySpecularShift: 0
-    - _Smoothness: 0.644
+    - _Smoothness: 0.99
     - _SmoothnessTextureChannel: 0
     - _SpecialMode: 0
     - _SpecularHighlights: 1
@@ -171,7 +179,7 @@ Material:
     - _CustomLightDir1: {r: 0, g: 0, b: 0, a: 0}
     - _CustomLightDir2: {r: 1, g: 1, b: 1, a: 1}
     - _CustomLightDir2Color: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0.15723264, g: 0.9462289, b: 1, a: 1}
     - _MatCapColor: {r: 0, g: 0, b: 0, a: 0}
     - _PrimarySpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _SecondarySpecularColor: {r: 1, g: 1, b: 1, a: 1}

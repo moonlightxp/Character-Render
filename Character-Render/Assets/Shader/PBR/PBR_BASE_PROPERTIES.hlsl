@@ -23,6 +23,7 @@ struct Varings
 //贴图
 TEXTURE2D(_MainTex);
 TEXTURE2D(_BumpMap);
+TEXTURE2D(_DetailNormalMap);
 TEXTURE2D(_GMAMap);
 TEXTURE2D(_SLDMap);
 TEXTURE2D(_EmissionMap);

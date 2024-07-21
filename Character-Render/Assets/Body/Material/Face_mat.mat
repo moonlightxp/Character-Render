@@ -26,6 +26,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - DetailBumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 1717698878ddec0459d610fbe6ccd455, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -35,6 +39,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailBumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -51,7 +59,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GMAMap:
-        m_Texture: {fileID: 2800000, guid: dec544a850d738741a3147348f2680ae, type: 3}
+        m_Texture: {fileID: 2800000, guid: e829524205f10df4fb12c0d7a3e23581, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HairDataMap:
@@ -83,7 +91,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SLDMap:
-        m_Texture: {fileID: 2800000, guid: d98ee737bf4745841a5f9fdbd1b3a0a8, type: 3}
+        m_Texture: {fileID: 2800000, guid: c8d510a4b048615449531104f3a8c7b7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SSSMap:

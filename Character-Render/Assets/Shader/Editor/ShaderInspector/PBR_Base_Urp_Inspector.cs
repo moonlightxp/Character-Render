@@ -13,6 +13,7 @@ public class PBR_Base_Urp_Inspector : ShaderGUI
         //参数
         public static GUIContent mainTexText = EditorGUIUtility.TrTextContent("主贴图");
         public static GUIContent bumpMapText = EditorGUIUtility.TrTextContent("法线贴图");
+        public static GUIContent detailBumpMapText = EditorGUIUtility.TrTextContent("细节法线贴图");
         public static GUIContent emissionMapText = EditorGUIUtility.TrTextContent("自发光贴图");
         public static GUIContent sssMapText = EditorGUIUtility.TrTextContent("SSS贴图");
         public static GUIContent laserMapText = EditorGUIUtility.TrTextContent("镭射贴图");
@@ -46,6 +47,7 @@ public class PBR_Base_Urp_Inspector : ShaderGUI
     private MaterialProperty _Cutoff;
     //法线
     private MaterialProperty _BumpMap;
+    private MaterialProperty _DetailNormalMap;
     private MaterialProperty _BumpScale;
     //PBR
     private MaterialProperty _GMAMap;
@@ -114,6 +116,7 @@ public class PBR_Base_Urp_Inspector : ShaderGUI
         _Cutoff = FindProperty("_Cutoff", properties);
         //法线
         _BumpMap = FindProperty("_BumpMap", properties);
+        _DetailNormalMap = FindProperty("_DetailNormalMap", properties);
         _BumpScale = FindProperty("_BumpScale", properties);
         //PBR
         _GMAMap = FindProperty("_GMAMap", properties);
@@ -326,6 +329,7 @@ public class PBR_Base_Urp_Inspector : ShaderGUI
         //法线
         Line();
         m_MaterialEditor.TexturePropertySingleLine(Styles.bumpMapText, _BumpMap);
+        m_MaterialEditor.TexturePropertySingleLine(Styles.detailBumpMapText, _DetailNormalMap);
         m_MaterialEditor.ShaderProperty(_BumpScale, "     法线强度");
         //自发光
         Line();

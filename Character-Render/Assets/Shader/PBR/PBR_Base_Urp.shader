@@ -6,6 +6,7 @@ Shader "SURender/URP/PBR_Base"
         _MainTex ("主贴图", 2D) = "white" {}
         _Color("主颜色", Color) = (1, 1, 1, 1)
         _BumpMap ("法线贴图", 2D) = "bump" {}
+        _DetailNormalMap ("细节法线贴图", 2D) = "bump" {}
         _BumpScale("法线强度", Float) = 1.0
         //功能贴图(金属度，光滑度。AO)
         _GMAMap ("功能贴图 (光滑度 / 金属度 / AO)", 2D) = "white" {}
