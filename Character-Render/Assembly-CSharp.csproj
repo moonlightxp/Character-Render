@@ -64,6 +64,7 @@
     <None Include="Library\PackageCache\com.unity.ide.visualstudio@2.0.18\ValidationConfig.json" />
     <None Include="Library\PackageCache\com.unity.modules.terrainphysics@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.mathematics@1.2.6\package.json" />
+    <None Include="Assets\Shader\Skin\GlobalHlsl\LYX_INPUT.hlsl" />
     <None Include="Library\PackageCache\com.unity.visualscripting@1.9.0\package.json" />
     <None Include="Library\PackageCache\com.unity.editorcoroutines@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.timeline@1.7.5\ValidationExceptions.json" />
@@ -73,6 +74,7 @@
     <None Include="Library\PackageCache\com.unity.ide.visualstudio@2.0.18\package.json" />
     <None Include="Library\PackageCache\com.unity.render-pipelines.core@14.0.8\ValidationConfig.json" />
     <None Include="Library\PackageCache\com.unity.render-pipelines.core@14.0.8\package.json" />
+    <None Include="Assets\Shader\Skin\Skin\LYX_SKIN_RENDER.hlsl" />
     <None Include="Library\PackageCache\com.unity.modules.imageconversion@1.0.0\package.json" />
     <None Include="Assets\Shader\Include\PBR\LUT.hlsl" />
     <None Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\ValidationExceptions.json" />
@@ -91,10 +93,12 @@
     <None Include="Library\PackageCache\com.unity.modules.physics2d@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.vr@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.visualscripting@1.9.0\ValidationExceptions.json" />
+    <None Include="Assets\Shader\Skin\Skin\LYX_SKIN_INPUT.hlsl" />
     <None Include="Library\PackageCache\com.unity.ide.visualstudio@2.0.18\ValidationExceptions.json" />
     <None Include="Library\PackageCache\com.unity.modules.wind@1.0.0\package.json" />
     <None Include="Assets\Shader\Include\PBR\PBR_CORE.hlsl" />
     <None Include="Library\PackageCache\com.unity.modules.umbra@1.0.0\package.json" />
+    <None Include="Assets\Shader\Skin\Skin\SkinRender.shader" />
     <None Include="Assets\Shader\PBR\PBR_BASE_FUNCTION.hlsl" />
     <None Include="Library\PackageCache\com.unity.modules.audio@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.physics@1.0.0\package.json" />
@@ -115,10 +119,12 @@
     <None Include="Library\PackageCache\com.unity.ide.vscode@1.2.5\ValidationExceptions.json" />
     <None Include="Library\PackageCache\com.unity.visualscripting@1.9.0\ValidationConfig.json" />
     <None Include="Library\PackageCache\com.unity.modules.terrain@1.0.0\package.json" />
+    <None Include="Assets\Shader\Skin\GlobalHlsl\LYX_BRDF.hlsl" />
     <None Include="Library\PackageCache\com.unity.modules.androidjni@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.textmeshpro@3.0.6\PackageConversionData_Assets.json" />
     <None Include="Library\PackageCache\com.unity.mathematics@1.2.6\ValidationExceptions.json" />
     <None Include="Library\PackageCache\com.unity.modules.animation@1.0.0\package.json" />
+    <None Include="Assets\Shader\Skin\GlobalHlsl\LYX_MATH.hlsl" />
     <None Include="Library\PackageCache\com.unity.burst@1.8.8\Unity.Burst.Unsafe.xml" />
     <None Include="Library\PackageCache\com.unity.render-pipelines.universal@14.0.8\ValidationConfig.json" />
     <None Include="Library\PackageCache\com.unity.modules.unitywebrequest@1.0.0\package.json" />

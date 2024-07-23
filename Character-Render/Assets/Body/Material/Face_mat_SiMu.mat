@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MATCAP_BLEND_MULTIPLY
+  - _SPECULAR_COLOR_TYPE_LIGHT
   m_InvalidKeywords:
   - _CULLOFF_ON
   - _SSS_ON
@@ -186,6 +187,7 @@ Material:
     - _ReceiveShadows: 1
     - _RimPower: 10
     - _RimWidth: 0.227
+    - _SPECULAR_COLOR_TYPE: 0
     - _SSS_Toggle: 1
     - _Saturation: 1
     - _SecondarySpecularExponent: 0
@@ -203,6 +205,7 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
+    - _AOColor: {r: 0, g: 0, b: 0, a: 1}
     - _AmbientColor: {r: 0.05490196, g: 0.05490196, b: 0.05490196, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.8679245, g: 0.7915035, b: 0.7915035, a: 1}
@@ -217,6 +220,7 @@ Material:
     - _SecondarySpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _SkinColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _StockingColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1349765026500451979
