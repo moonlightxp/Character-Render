@@ -1,74 +1,63 @@
 ﻿#ifndef URP_SHADER_INCLUDE_LYX_SKIN_RENDER
 #define URP_SHADER_INCLUDE_LYX_SKIN_RENDER
 
-#include "../GlobalHlsl/LYX_MATH.hlsl"
-#include "../GlobalHlsl/LYX_INPUT.hlsl"
-#include "../GlobalHlsl/LYX_BRDF.hlsl"
-
+#include "../GlobalHlsl/LYX_GLOBAL.hlsl"
 #include "LYX_SKIN_INPUT.hlsl"
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 // < 光照 light >
-void ApplyLight(SkinObjData objData, SkinLitData mainLitData, inout float4 output)
+float3 DirectLight(ObjData objData, LitData litData, inout LitResultData lit)
 {
-    // 初始化光照结果结构体
-    LitResultData lit = (LitResultData)0;
-
-    // 主光源直接光
     KelemenSzirmayKalosBRDF(
         _SSSTex, _SpecularBRDF, objData.albedo,
         objData.roughness, objData.thickness,
-        mainLitData.halfDirNoNormalizeWS, mainLitData.nl, mainLitData.remapNl, mainLitData.nh, mainLitData.vh,
+        litData.halfDirNoNormalizeWS, litData.nl, litData.remapNl, litData.nh, litData.vh,
         lit);
     
     lit.DirectDiffuse += (1 - lit.DirectDiffuse) * _SSSColor.rgb * _SSSColor.a;
-    lit.DirectDiffuse *= mainLitData.diffuseColor * objData.AO;
-    lit.DirectSpecular *= mainLitData.specularColor * _Specular;
-    
-    output.rgb = (lit.DirectDiffuse + lit.DirectSpecular) * mainLitData.shadowAtten;
+    lit.DirectDiffuse *= litData.diffuseColor * objData.AO;
+    lit.DirectSpecular *= litData.specularColor * _Specular;
 
-    // 间接光
+    return (lit.DirectDiffuse + lit.DirectSpecular) * litData.shadowAtten;
+}
+
+float3 InDirectLight(ObjData objData, inout LitResultData lit)
+{
     IndirectLightSkin( objData.albedo, objData.normalWS, lit);
-    output.rgb += lit.InDirectDiffuse + lit.InDirectSpecular;
+
+    return lit.InDirectDiffuse + lit.InDirectSpecular;
+}
+
+void ApplyLight(ObjData objData, LitData mainLitData, inout float4 output)
+{
+    LitResultData lit = (LitResultData)0; // 初始化光照结果结构体
+    output.rgb = DirectLight(objData, mainLitData, lit); // 添加主光源直接光
+    output.rgb += InDirectLight(objData, lit); // 添加间接光
 
     // 额外光
-    SkinLitData addiLitData;
+    LitData addiLitData;
     for (int i = 0; i < GetAdditionalLightsCount(); ++i)
     {
-        SetSkinLitData(objData, GetAdditionalLight(i, objData.positionWS, 1), addiLitData);
-    
-        KelemenSzirmayKalosBRDF(
-            _SSSTex, _SpecularBRDF, objData.albedo,
-            objData.roughness, objData.thickness,
-            addiLitData.halfDirNoNormalizeWS, addiLitData.nl, addiLitData.remapNl, addiLitData.nh, addiLitData.vh,
-            lit);
-    
-        // 额外光源直接光
-        lit.DirectDiffuse *= (1 - lit.DirectDiffuse) * _SSSColor.rgb * _SSSColor.a;
-        lit.DirectDiffuse *= addiLitData.diffuseColor * objData.AO;
-        lit.DirectSpecular *= addiLitData.specularColor * _Specular;
-    
-        output.rgb += (lit.DirectDiffuse + lit.DirectSpecular) * addiLitData.shadowAtten;
+        SetLitData(objData, GetAdditionalLight(i, objData.positionWS, 1), addiLitData); // 初始化额外光源数据
+        output.rgb += DirectLight(objData, addiLitData, lit); // 添加额外光源直接光
     }
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 // < 次表面散射 SSS >
-void ApplySSS(SkinObjData objData, SkinLitData mainLitData, inout float4 output)
+void ApplySSS(ObjData objData, LitData mainLitData, inout float4 output)
 {
-    float3 sss = LutSSS(_SSSTex, objData.thickness, mainLitData.remapNl);
-    sss += (1 - sss) * _SSSColor.rgb;
-    sss = 1 - _SSSColor.a * (1 - sss);
-    
+    float3 sss = 1;
+
     output.rgb *= sss;
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 // < MatCap >
-void ApplyMatCap(SkinObjData objData, inout float4 output)
+void ApplyMatCap(ObjData objData, inout float4 output)
 {
     float3 normalVS = mul((float3x3)UNITY_MATRIX_V, objData.normalWS);
     float4 matCap = _MatCapTex.Sample(sampler_Linear_Clamp, normalVS.xy * 0.5 + 0.5);
@@ -84,13 +73,23 @@ void ApplyMatCap(SkinObjData objData, inout float4 output)
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 // < 边缘光 >
-void ApplyRim(SkinObjData objData, inout float4 output)
+void ApplyRim(ObjData objData, inout float4 output)
 {
     half3 rim = 1 - objData.nv;
     rim = P(rim, 1 / _RimWidth);
     rim *= _RimColor.rgb * _RimColor.a;
     
     output.rgb += rim;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+// < 后处理 >
+void ApplyPostPorcess(inout float4 output)
+{
+    output.rgb *= _Brightness;
+    output.rgb = Saturation(output.rgb, _Saturation);
+    output.rgb = Contrast(output.rgb, _Contrast);
 }
 
 #endif

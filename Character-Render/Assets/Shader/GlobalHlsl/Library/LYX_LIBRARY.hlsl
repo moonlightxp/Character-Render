@@ -1,0 +1,9 @@
+﻿#ifndef URP_SHADER_INCLUDE_LYX_LIBRARY
+#define URP_SHADER_INCLUDE_LYX_LIBRARY
+
+#include "LYX_LIBRARY_FUNCTION.hlsl"
+#include "LYX_LIBRARY_LIGHT.hlsl"
+#include "LYX_LIBRARY_UNLIGHT.hlsl"
+#include "LYX_LIBRARY_RESULT.hlsl"
+
+#endif

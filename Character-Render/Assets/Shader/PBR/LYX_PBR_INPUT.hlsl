@@ -25,7 +25,7 @@ struct Varyings
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 // 物体相关数据,只计算一次
-struct SkinObjData
+struct ObjData
 {
     float4 albedo; // 表面颜色
     float3 emission; // 自发光
@@ -39,6 +39,7 @@ struct SkinObjData
     float roughness2; // 粗糙度 4 次方
     
     float3 AO; // AO
+    float2 BRDF; // 环境光 BRDF
     float thickness; // 厚度
 
     //------------------------------------------------------------------------------------
@@ -56,7 +57,7 @@ struct SkinObjData
 };
 
 // 灯光相关数据,每盏灯不同
-struct SkinLitData
+struct LitData
 {
     float3 halfDirWS;
     float nl;
@@ -75,7 +76,7 @@ struct SkinLitData
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-void SetSkinObjData(Varyings input, float4 source, out SkinObjData objData)
+void SetObjData(Varyings input, float4 source, out ObjData objData)
 {
     objData.albedo = source;
     objData.emission = 1;
@@ -110,9 +111,11 @@ void SetSkinObjData(Varyings input, float4 source, out SkinObjData objData)
     objData.reflectDir = reflect(-objData.viewDirWS, objData.normalWS);
     objData.f0 = lerp(0.04, objData.albedo.rgb, objData.metallic);
     objData.nv = ClampDot(objData.normalWS, objData.viewDirWS);
+
+    objData.BRDF = _EnvBRDF.Sample(sampler_Linear_Clamp, float2(objData.nv * 0.99, objData.roughness * 0.99)).rg;
 }
 
-void SetSkinLitData(SkinObjData objData, Light light, out SkinLitData litData)
+void SetLitData(ObjData objData, Light light, out LitData litData)
 {
     litData.dir = light.direction;
     

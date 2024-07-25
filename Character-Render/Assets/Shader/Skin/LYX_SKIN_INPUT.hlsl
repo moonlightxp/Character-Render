@@ -25,7 +25,7 @@ struct Varyings
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 // 物体相关数据,只计算一次
-struct SkinObjData
+struct ObjData
 {
     float4 albedo; // 表面颜色
     
@@ -50,7 +50,7 @@ struct SkinObjData
 };
 
 // 灯光相关数据,每盏灯不同
-struct SkinLitData
+struct LitData
 {
     float3 halfDirWS;
     float3 halfDirNoNormalizeWS;
@@ -75,9 +75,10 @@ half3 UnpackNormalRG(half4 packedNormal, half scale = 1.0)
     normal.xy *= scale;
     return normal;
 }
+
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-void SetSkinObjData(Varyings input, float4 source, out SkinObjData objData)
+void SetObjData(Varyings input, float4 source, out ObjData objData)
 {
     objData.albedo = source + _SkinSurfaceTex.Sample(sampler_Linear_Clamp, input.uv) * _SkinSurface;
     
@@ -108,7 +109,7 @@ void SetSkinObjData(Varyings input, float4 source, out SkinObjData objData)
     objData.nv = ClampDot(objData.normalWS, objData.viewDirWS);
 }
 
-void SetSkinLitData(SkinObjData objData, Light light, out SkinLitData litData)
+void SetLitData(ObjData objData, Light light, out LitData litData)
 {
     litData.dir = light.direction;
     
