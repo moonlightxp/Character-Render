@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: f52f0905a130d5f41ae59f5bdc82810e
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _MainTex: {instanceID: 0}
+  - _BumpMap: {instanceID: 0}
+  - _LUT_IBL: {fileID: 2800000, guid: 4c510cdb15dee5b46bc37bd698e1965b, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

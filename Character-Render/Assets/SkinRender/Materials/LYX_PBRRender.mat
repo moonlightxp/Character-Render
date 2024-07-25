@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LYX_PBRRender
+  m_Shader: {fileID: 4800000, guid: f52f0905a130d5f41ae59f5bdc82810e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _MATCAP_BLEND_ADD
+  - _SPECULAR_COLOR_TYPE_LIGHT
+  m_InvalidKeywords:
+  - _F0_TYPE_NORMAL
+  - _F0_TYPE_SKIN
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AOTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BrdfLUTTex:
+        m_Texture: {fileID: 2800000, guid: a6dd060c67e78e4449f5dcd143891904, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: ff208af18ee0c3a47ae249b5767762d8, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _EnvBRDF:
+        m_Texture: {fileID: 2800000, guid: 4c510cdb15dee5b46bc37bd698e1965b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _IBL:
+        m_Texture: {fileID: 2800000, guid: 4c510cdb15dee5b46bc37bd698e1965b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LUT_IBL:
+        m_Texture: {fileID: 2800000, guid: 4c510cdb15dee5b46bc37bd698e1965b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MatCapTex:
+        m_Texture: {fileID: 2800000, guid: 153a08094e9f7f046bb1a578b22688c9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SSSTex:
+        m_Texture: {fileID: 2800000, guid: 64c040cc52200204ebb2125dcd4cfbe5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularBRDF:
+        m_Texture: {fileID: 2800000, guid: a6dd060c67e78e4449f5dcd143891904, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Thickness:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThicknessTex:
+        m_Texture: {fileID: 2800000, guid: 7c04e54995cf9324cabd7c0f7fc1dc9d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AAAA: 1
+    - _AO: 0
+    - _BumpScale: 0.1
+    - _Cull: 2
+    - _Cutoff: 0
+    - _DstBlend: 0
+    - _F0: 0
+    - _F0_TYPE: 0
+    - _HalfLambert: 1
+    - _MATCAP_BLEND: 1
+    - _Metallic: 0.8
+    - _Rim: 1
+    - _RimFeather: 1
+    - _RimWidth: 0.474
+    - _SPECULAR_COLOR_TYPE: 0
+    - _SSSColor: 1
+    - _Smoothness: 0.8
+    - _SrcBlend: 1
+    - _Thickness: 1
+    - _ZTest: 4
+    - _ZWrite: 1
+    m_Colors:
+    - _AOColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _MATCAP_BLEND: {r: 1, g: 1, b: 1, a: 1}
+    - _MatBlendMode: {r: 1, g: 1, b: 1, a: 1}
+    - _MatCapColor: {r: 1, g: 0.7922193, b: 0.25471687, a: 1}
+    - _RimColor: {r: 1, g: 0.42046088, b: 0, a: 1}
+    - _SSSColor: {r: 0, g: 0.5622853, b: 0.6886792, a: 0.8117647}
+    - _SpecularColor: {r: 4.73575, g: 4.73575, b: 4.73575, a: 1}
+    - _Thickness: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
