@@ -1,5 +1,5 @@
-﻿#ifndef URP_SHADER_INCLUDE_LYX_SKIN_INPUT
-#define URP_SHADER_INCLUDE_LYX_SKIN_INPUT
+﻿#ifndef URP_SHADER_INCLUDE_LYX_HAIR_INPUT
+#define URP_SHADER_INCLUDE_LYX_HAIR_INPUT
 
 struct Attributes
 {
@@ -17,6 +17,7 @@ struct Varyings
     float3 normalWS : TEXCOORD2;
     float4 tangentWS : TEXCOORD3;
     float3 bitangentWS : TEXCOORD4;
+    float3 bitangentWS2 : TEXCOORD5;
 
     float2 uv : TEXCOORD0;
     float fogCoord : TEXCOORD6;
@@ -28,7 +29,7 @@ struct Varyings
 struct ObjData
 {
     float4 albedo; // 表面颜色
-    
+
     float smoothness; // 光滑度
     float roughness; // 粗糙度平方
 
@@ -41,6 +42,8 @@ struct ObjData
     float3 positionWS; // 世界空间位置
     float4 positionCS; // 裁剪空间位置
     float3 normalWS; // 世界空间法线
+    float3 tangentWS; // 世界空间法线
+    float3 bTangentWS; // 世界空间法线
     float3x3 tangentToWorldMatrix; // TBN
     float4 shadowCoord; // 阴影
 
@@ -59,6 +62,9 @@ struct LitData
     float nh;
     float vh;
 
+    float th;
+    float bh;
+
     float3 color;
     float3 diffuseColor;
     float3 specularColor;
@@ -71,8 +77,8 @@ struct LitData
 
 void SetObjData(Varyings input, float4 source, out ObjData objData)
 {
-    objData.albedo = source + _SkinSurfaceTex.Sample(sampler_Linear_Clamp, input.uv) * _SkinSurface;
-    
+    objData.albedo = source;
+
     objData.smoothness = _Smoothness * _SmoothnessTex.Sample(sampler_Linear_Clamp, input.uv.xy).r;
     objData.roughness = max(P2(1 - objData.smoothness), HALF_MIN_SQRT);
     
@@ -84,8 +90,11 @@ void SetObjData(Varyings input, float4 source, out ObjData objData)
     _bumpMap.rgb = UnpackNormalScale(_bumpMap, _BumpScale);
     objData.vertexNormalWS = input.normalWS;
     objData.tangentToWorldMatrix = float3x3(input.tangentWS.xyz, input.bitangentWS, input.normalWS);
+
     objData.normalWS = normalize(mul(_bumpMap.rgb,  objData.tangentToWorldMatrix));
-    
+    objData.tangentWS = input.tangentWS;
+    objData.bTangentWS = input.bitangentWS2;
+
     objData.thickness = _ThicknessTex.Sample(sampler_Linear_Clamp, input.uv.xy).r * _Thickness;
 
     //------------------------------------------------------------------------------------
@@ -102,7 +111,7 @@ void SetObjData(Varyings input, float4 source, out ObjData objData)
 void SetLitData(ObjData objData, Light light, out LitData litData)
 {
     litData.dir = light.direction;
-    
+
     litData.halfDirNoNormalizeWS = litData.dir + objData.viewDirWS;
     litData.halfDirWS = normalize(litData.dir + objData.viewDirWS);
     litData.nl = ClampDot(objData.normalWS, litData.dir);
@@ -110,6 +119,9 @@ void SetLitData(ObjData objData, Light light, out LitData litData)
     
     litData.nh = ClampDot(objData.normalWS, litData.halfDirWS);
     litData.vh = ClampDot(objData.viewDirWS, litData.halfDirWS);
+
+    litData.th = dot(objData.tangentWS, litData.halfDirWS);
+    litData.bh = dot(objData.bTangentWS, litData.halfDirWS);
     
     litData.color = light.color * light.distanceAttenuation;
     litData.diffuseColor = litData.color;
