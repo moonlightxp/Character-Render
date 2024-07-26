@@ -31,12 +31,12 @@ void ApplyLight(ObjData objData, LitData mainLitData, inout float4 output)
     output.rgb += InDirectLight(objData, lit); // 添加间接光
 
     // 额外光
-    LitData addiLitData;
-    for (int i = 0; i < GetAdditionalLightsCount(); ++i)
-    {
-        SetLitData(objData, GetAdditionalLight(i, objData.positionWS, 1), addiLitData); // 初始化额外光源数据
-        output.rgb += DirectLight(objData, addiLitData, lit);// 额外光源直接光
-    }
+    // LitData addiLitData;
+    // for (int i = 0; i < GetAdditionalLightsCount(); ++i)
+    // {
+    //     SetLitData(objData, GetAdditionalLight(i, objData.positionWS, 1), addiLitData); // 初始化额外光源数据
+    //     output.rgb += DirectLight(objData, addiLitData, lit);// 额外光源直接光
+    // }
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/

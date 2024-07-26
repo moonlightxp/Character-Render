@@ -23,7 +23,7 @@
         _Specular ("高光强度", Range(0, 10000)) = 1
         _AnisoT ("切线方向拉伸", Range(0.001, 0.999)) = 0.5
         _AnisoB ("副切线方向拉伸", Range(0.001, 0.999)) = 0.5
-        _OffsetT ("高光偏移", Range(0.001, 0.999)) = 0.5
+        _OffsetT ("高光偏移", Range(0.001, 5)) = 0.5
 
         [Header(_ AO _)] [Space(3)]
         _AOColor ("AO 颜色", Color) = (0, 0, 0, 1)
@@ -36,7 +36,7 @@
         
         [Space(40)]
         [Header(_ MatCap _)] [Space(3)]
-        [NoScaleOffset] _MatCapTex ("MatCap 贴图", 2D) = "black" {}
+        [NoScaleOffset] _MatCapTex ("MatCap 贴图", 2D) = "white" {}
         [HDR] _MatCapColor ("MatCap 颜色", Color) = (1, 1, 1, 1)
         [KeywordEnum(MULTIPLY, ADD)] _MATCAP_BLEND ("MatCap 混合模式", Float) = 0
         
@@ -128,8 +128,8 @@
                 float _AnisoT;
                 float _AnisoB;
                 float _OffsetT;
-
-
+                float _OffsetB;
+            
                 float4 _SSSColor;
                 float _Thickness;
 
@@ -148,10 +148,10 @@
                 Varyings output;
                 
                 output.normalWS = TransformObjectToWorldNormal(input.normalOS);
-                output.tangentWS.xyz = TransformObjectToWorldDir(input.tangentOS.xyz + _OffsetT * input.normalOS);
+                output.tangentWS.xyz = TransformObjectToWorldDir(input.tangentOS.xyz);
                 output.tangentWS.w = input.tangentOS.w;
                 output.bitangentWS = cross(output.normalWS, output.tangentWS.xyz) * output.tangentWS.w;
-                output.bitangentWS2 = TransformObjectToWorldDir(cross(input.normalOS, input.tangentOS.xyz));
+                output.bitangentWS2 = TransformObjectToWorldDir(cross(input.normalOS, input.tangentOS.xyz)) + _OffsetT * output.normalWS;
 
                 output.positionWS = TransformObjectToWorld(input.positionOS.xyz);
                 output.positionCS = TransformWorldToHClip(output.positionWS);

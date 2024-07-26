@@ -97,4 +97,17 @@ half3 Saturation(half3 source, float saturation){return lerp(Grayscale(source), 
 float3 ColorShift(float3 source, float3 shift){return saturate(source + shift);}
 half3 ColorShift(half3 source, half3 shift){return saturate(source + shift);}
 
+/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+half3 UnpackNormalRG(half4 packedNormal, half scale = 1)
+{
+    half3 normal;
+    
+    normal.xy = packedNormal.rg * 2 - 1;
+    normal.z = max(1.0e-16, sqrt(1 - saturate(dot(normal.xy, normal.xy))));
+    normal.xy *= scale;
+    
+    return normal;
+}
+
 #endif

@@ -81,7 +81,8 @@ void SetObjData(Varyings input, float4 source, out ObjData objData)
     objData.AO += (1 - objData.AO) * _AOColor.rgb;
 
     float4 _bumpMap = _BumpMap.Sample(sampler_Linear_Repeat, input.uv);
-    _bumpMap.rgb = UnpackNormalScale(_bumpMap, _BumpScale);
+    // _bumpMap.rgb = UnpackNormalScale(_bumpMap, _BumpScale);
+    _bumpMap.rgb = UnpackNormalRG(_bumpMap, _BumpScale);
     objData.vertexNormalWS = input.normalWS;
     objData.tangentToWorldMatrix = float3x3(input.tangentWS.xyz, input.bitangentWS, input.normalWS);
     objData.normalWS = normalize(mul(_bumpMap.rgb,  objData.tangentToWorldMatrix));
