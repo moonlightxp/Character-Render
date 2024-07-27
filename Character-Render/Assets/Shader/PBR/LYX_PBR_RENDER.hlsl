@@ -14,24 +14,26 @@ float3 DirectLight(ObjData objData, LitData litData, LitResultData lit)
         litData.nl, litData.remapNl, litData.nh, litData.vh,
         lit);
     
-    lit.DirectDiffuse *= litData.diffuseColor * objData.AO;
+    lit.DirectDiffuse *= litData.diffuseColor;
     lit.DirectSpecular *= litData.specularColor;
     
     return (lit.DirectDiffuse + lit.DirectSpecular) * litData.shadowAtten;
 }
 
-float3 InDirectLight(ObjData objData, LitResultData lit)
+float3 InDirectLight(ObjData objData, LitData litData, LitResultData lit)
 {
-    IndirectLightBRDF(objData.BRDF, objData.roughness, objData.realRoughness, objData.metallic, objData.albedo, objData.normalWS, objData.nv, objData.reflectDir, objData.f0, lit);
+    IndirectLightBRDF(
+        objData.BRDF, objData.roughness, objData.realRoughness, objData.metallic, objData.albedo, objData.normalWS, objData.nv, objData.reflectDir, objData.f0,
+        lit);
     
-    return lit.InDirectDiffuse + lit.InDirectSpecular;
+    return (lit.InDirectDiffuse + lit.InDirectSpecular) * litData.shadowAtten;
 }
 
 void ApplyLight(ObjData objData, LitData mainLitData, inout float4 output)
 {
     LitResultData lit = (LitResultData)0; // 初始化光照结果结构体
     output.rgb = DirectLight(objData, mainLitData, lit); // 添加主光源直接光
-    output.rgb += InDirectLight(objData, lit); // 添加间接光
+    output.rgb += InDirectLight(objData, mainLitData, lit); // 添加间接光
     
     LitData addiLitData;
     for (int i = 0; i < GetAdditionalLightsCount(); ++i)
@@ -39,6 +41,8 @@ void ApplyLight(ObjData objData, LitData mainLitData, inout float4 output)
         SetLitData(objData, GetAdditionalLight(i, objData.positionWS, 1), addiLitData); // 初始化额外光源数据
         output.rgb += DirectLight(objData, addiLitData, lit); // 添加额外光源直接光
     }
+
+    output.rgb *= objData.AO;
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/

@@ -71,7 +71,7 @@ struct LitData
 
 void SetObjData(Varyings input, float4 source, out ObjData objData)
 {
-    objData.albedo = source + _SkinSurfaceTex.Sample(sampler_Linear_Clamp, input.uv) * _SkinSurface;
+    objData.albedo = (source + _SkinSurfaceTex.Sample(sampler_Linear_Clamp, input.uv) * _SkinSurface) * _Color;
     
     objData.smoothness = _Smoothness * _SmoothnessTex.Sample(sampler_Linear_Clamp, input.uv.xy).r;
     objData.roughness = max(P2(1 - objData.smoothness), HALF_MIN_SQRT);

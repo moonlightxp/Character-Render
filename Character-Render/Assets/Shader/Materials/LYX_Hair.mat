@@ -12,13 +12,13 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _MATCAP_BLEND_MULTIPLY
+  - _MATCAP_BLEND_ADD
   - _SPECULAR_COLOR_TYPE_MIX
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -29,16 +29,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _AnisoShiftMask:
+        m_Texture: {fileID: 2800000, guid: 388603ad6c7aaf84c9657daeae48c15b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ef26fad31abe87c48a4a302a879a430f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ee21aee90c09c3445aafbc16be34343f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatCapTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 153a08094e9f7f046bb1a578b22688c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SmoothnessTex:
@@ -51,27 +55,37 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AnisoB: 0.155
+    - _AnisoB: 0.251
+    - _AnisoB1: 0.145
+    - _AnisoB2: 0.228
     - _AnisoT: 0.999
+    - _AnisoT1: 0.999
+    - _AnisoT2: 0.999
     - _BumpScale: 0.03
+    - _Clip: 0
     - _Cull: 0
-    - _DstBlend: 0
-    - _HalfLambert: 1
-    - _MATCAP_BLEND: 0
-    - _OffsetT: 0.26
-    - _RimWidth: 1
+    - _DstBlend: 8
+    - _HalfLambert: 0.5
+    - _MATCAP_BLEND: 1
+    - _Offset: -0.189
+    - _Offset1: 0.423
+    - _Offset2: 0.683
+    - _OffsetT: 0.95
+    - _RimWidth: 0.001
     - _SPECULAR_COLOR_TYPE: 2
     - _Smoothness: 0
-    - _Specular: 0.04
-    - _SrcBlend: 1
+    - _Specular: 5
+    - _SrcBlend: 5
     - _Thickness: 1
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _AOColor: {r: 0, g: 0, b: 0, a: 1}
+    - _AOColor: {r: 0.29559743, g: 0.28318128, b: 0.27979505, a: 1}
     - _Color: {r: 0.49685526, g: 0.25669396, b: 0.16718084, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 0}
-    - _RimColor: {r: 1, g: 1, b: 1, a: 0}
+    - _RimColor: {r: 0.16352195, g: 0.049329456, b: 0.0077132788, a: 1}
     - _SSSColor: {r: 1, g: 1, b: 1, a: 0}
-    - _SpecularColor: {r: 0.63522005, g: 0.41265997, b: 0.25368845, a: 1}
+    - _SpecularColor: {r: 0.33195156, g: 0.33195156, b: 0.33195156, a: 1}
+    - _SpecularColor1: {r: 0.44025147, g: 0.44025147, b: 0.44025147, a: 1}
+    - _SpecularColor2: {r: 1.2045032, g: 0.5455015, b: 0.26892987, a: 1}
   m_BuildTextureStacks: []

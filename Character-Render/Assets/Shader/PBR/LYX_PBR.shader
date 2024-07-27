@@ -127,6 +127,7 @@
                 float _Smoothness;
                 float _BumpScale;
                 float4 _SpecularColor;
+            
                 float4 _AOColor;
             
                 float _Thickness;
@@ -140,6 +141,27 @@
                 float _Contrast;
                 float _Saturation;
             CBUFFER_END
+
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normalOS : NORMAL;
+                float4 tangentOS : TANGENT;
+            };
+
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                float3 positionWS : TEXCOORD1;
+
+                float3 normalWS : TEXCOORD2;
+                float4 tangentWS : TEXCOORD3;
+                float3 bitangentWS : TEXCOORD4;
+
+                float4 uv : TEXCOORD0;
+                float fogCoord : TEXCOORD6;
+            };
 
             #include "LYX_PBR_RENDER.hlsl"
 
@@ -167,7 +189,7 @@
             float4 Fragment(Varyings input) : SV_Target
             {
                 float4 baseMap = _MainTex.Sample(sampler_Linear_Clamp, input.uv.xy);
-                float4 output = baseMap * _Color;
+                float4 output = baseMap;
                 
                 ObjData objData;
                 SetObjData(input, output, objData);

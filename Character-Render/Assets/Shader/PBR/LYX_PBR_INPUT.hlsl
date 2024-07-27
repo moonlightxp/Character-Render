@@ -1,27 +1,6 @@
 ﻿#ifndef URP_SHADER_INCLUDE_LYX_PBR_INPUT
 #define URP_SHADER_INCLUDE_LYX_PBR_INPUT
 
-struct Attributes
-{
-    float4 positionOS : POSITION;
-    float2 uv : TEXCOORD0;
-    float3 normalOS : NORMAL;
-    float4 tangentOS : TANGENT;
-};
-
-struct Varyings
-{
-    float4 positionCS : SV_POSITION;
-    float3 positionWS : TEXCOORD1;
-
-    float3 normalWS : TEXCOORD2;
-    float4 tangentWS : TEXCOORD3;
-    float3 bitangentWS : TEXCOORD4;
-
-    float4 uv : TEXCOORD0;
-    float fogCoord : TEXCOORD6;
-};
-
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 // 物体相关数据,只计算一次
@@ -78,7 +57,7 @@ struct LitData
 
 void SetObjData(Varyings input, float4 source, out ObjData objData)
 {
-    objData.albedo = source;
+    objData.albedo = source * _Color;
     objData.emission = 1;
 
     objData.metallic = _Metallic * _MetallicTex.Sample(sampler_Linear_Clamp, input.uv.xy).r;
@@ -89,11 +68,12 @@ void SetObjData(Varyings input, float4 source, out ObjData objData)
     objData.roughness2 = max(P2(objData.roughness), HALF_MIN);
 
     objData.AO = _AOTex.Sample(sampler_Linear_Clamp, input.uv.xy).r;
-    objData.AO = Max1(objData.AO + 1 - _AOColor.a);
-    objData.AO += (1 - objData.AO) * _AOColor.rgb;
+    objData.AO = Max1(objData.AO + 1 - _AOColor.a); // _AOColor.a 控制 AO 强度
+    objData.AO += (1 - objData.AO) * _AOColor.rgb; // 只改变黑色部分颜色
 
     float4 _bumpMap = _BumpMap.Sample(sampler_Linear_Repeat, input.uv.zw);
-    _bumpMap.rgb = UnpackNormalScale(_bumpMap, _BumpScale);
+    // _bumpMap.rgb = UnpackNormalScale(_bumpMap, _BumpScale);
+    _bumpMap.rgb = UnpackNormalRG(_bumpMap, _BumpScale);
     objData.vertexNormalWS = input.normalWS;
     objData.tangentToWorldMatrix = float3x3(input.tangentWS.xyz, input.bitangentWS, input.normalWS);
     objData.normalWS = normalize(mul(_bumpMap.rgb,  objData.tangentToWorldMatrix));

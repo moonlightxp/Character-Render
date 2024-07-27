@@ -16,24 +16,24 @@ float3 DirectLight(ObjData objData, LitData litData, inout LitResultData lit)
         lit);
     
     lit.DirectDiffuse += (1 - lit.DirectDiffuse) * _SSSColor.rgb * _SSSColor.a;
-    lit.DirectDiffuse *= litData.diffuseColor * objData.AO;
+    lit.DirectDiffuse *= litData.diffuseColor;
     lit.DirectSpecular *= litData.specularColor * _Specular;
 
     return (lit.DirectDiffuse + lit.DirectSpecular) * litData.shadowAtten;
 }
 
-float3 InDirectLight(ObjData objData, inout LitResultData lit)
+float3 InDirectLight(ObjData objData, LitData litData, inout LitResultData lit)
 {
     IndirectLightSkin( objData.albedo, objData.normalWS, lit);
 
-    return lit.InDirectDiffuse + lit.InDirectSpecular;
+    return (lit.InDirectDiffuse + lit.InDirectSpecular) * litData.shadowAtten;
 }
 
 void ApplyLight(ObjData objData, LitData mainLitData, inout float4 output)
 {
     LitResultData lit = (LitResultData)0; // 初始化光照结果结构体
     output.rgb = DirectLight(objData, mainLitData, lit); // 添加主光源直接光
-    output.rgb += InDirectLight(objData, lit); // 添加间接光
+    output.rgb += InDirectLight(objData, mainLitData, lit); // 添加间接光
 
     // 额外光
     LitData addiLitData;
@@ -42,6 +42,8 @@ void ApplyLight(ObjData objData, LitData mainLitData, inout float4 output)
         SetLitData(objData, GetAdditionalLight(i, objData.positionWS, 1), addiLitData); // 初始化额外光源数据
         output.rgb += DirectLight(objData, addiLitData, lit); // 添加额外光源直接光
     }
+
+    output.rgb *= objData.AO;
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/

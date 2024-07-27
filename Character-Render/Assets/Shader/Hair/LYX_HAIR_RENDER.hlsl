@@ -9,34 +9,36 @@
 // < 光照 light >
 float3 DirectLight(ObjData objData, LitData litData, LitResultData lit)
 {
-    GGXAnisoHair(objData.albedo, litData.remapNl, litData.th, litData.bh, litData.nh, _AnisoT, _AnisoB, lit);
+    GGXAnisoHair(objData.albedo, litData.remapNl, litData.th, litData.bh1, litData.bh2, litData.nh, _AnisoT1, _AnisoT2, _AnisoB1, _AnisoB2, _SpecularColor1, _SpecularColor2, lit);
     
-    lit.DirectDiffuse *= litData.diffuseColor * objData.AO;
-    lit.DirectSpecular *= litData.specularColor * _Specular;
+    lit.DirectDiffuse *= litData.diffuseColor;
+    lit.DirectSpecular *= objData.specularMask;
     
-    return lit.DirectDiffuse + lit.DirectSpecular * litData.shadowAtten;
+    return (lit.DirectDiffuse + lit.DirectSpecular) * litData.shadowAtten;
 }
 
-float3 InDirectLight(ObjData objData, LitResultData lit)
+float3 InDirectLight(ObjData objData, LitData litData, LitResultData lit)
 {
     IndirectLightHair( objData.albedo, objData.normalWS, lit);
-    
-    return lit.InDirectDiffuse + lit.InDirectSpecular;
+
+    return (lit.InDirectDiffuse + lit.InDirectSpecular) * litData.shadowAtten;
 }
 
 void ApplyLight(ObjData objData, LitData mainLitData, inout float4 output)
 {
     LitResultData lit = (LitResultData)0; // 初始化光照结果结构体
     output.rgb = DirectLight(objData, mainLitData, lit); // 添加主光源直接光
-    output.rgb += InDirectLight(objData, lit); // 添加间接光
+    output.rgb += InDirectLight(objData, mainLitData, lit); // 添加间接光
 
     // 额外光
-    // LitData addiLitData;
-    // for (int i = 0; i < GetAdditionalLightsCount(); ++i)
-    // {
-    //     SetLitData(objData, GetAdditionalLight(i, objData.positionWS, 1), addiLitData); // 初始化额外光源数据
-    //     output.rgb += DirectLight(objData, addiLitData, lit);// 额外光源直接光
-    // }
+    LitData addiLitData;
+    for (int i = 0; i < GetAdditionalLightsCount(); ++i)
+    {
+        SetLitData(objData, GetAdditionalLight(i, objData.positionWS, 1), addiLitData); // 初始化额外光源数据
+        output.rgb += DirectLight(objData, addiLitData, lit);// 额外光源直接光
+    }
+
+    output.rgb *= objData.AO;
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/

@@ -34,6 +34,7 @@
         [NoScaleOffset] _SSSTex ("次表面散射预积分贴图", 2D) = "black" {}
         [NoScaleOffset] _ThicknessTex ("厚度图", 2D) = "white" {}
         _SSSColor ("次表面散射暗部颜色", Color) = (1, 1, 1, 1)
+        _SSSStrength ("阴影强度",  Range(0, 1)) = 1
         _Thickness ("厚度", Range(0, 5)) = 1
         
         [Space(40)]
@@ -139,6 +140,7 @@
                 float4 _AOColor;
 
                 float4 _SSSColor;
+                float _SSSStrength;
                 float _Thickness;
 
                 float4 _RimColor;
@@ -176,7 +178,7 @@
             float4 Fragment(Varyings input) : SV_Target
             {
                 float4 baseMap = _MainTex.Sample(sampler_Linear_Clamp, input.uv.xy);
-                float4 output = baseMap * _Color;
+                float4 output = baseMap;
                 
                 ObjData objData;
                 SetObjData(input, output, objData);

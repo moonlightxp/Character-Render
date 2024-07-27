@@ -12,3 +12,5 @@ Character-Render/Assembly-CSharp.csproj
 Character-Render/Character-Render.sln
 /Character-Render/Packages
 /Character-Render/UserSettings
+/Character-Render/Packages
+Character-Render/Packages/packages-lock.json

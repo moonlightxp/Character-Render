@@ -39,6 +39,9 @@ void KelemenSzirmayKalosBRDF(Texture2D SSSTex, Texture2D BRDFTex, float4 albedo,
     BRDF = P(2 * BRDF, 10);
     float specular = max(BRDF * F / dot(halfDirNoNormalizeWS, halfDirNoNormalizeWS), 0);
 
+    remapNl = 1 - remapNl;
+    remapNl *= remapNl;
+    remapNl = 1 - remapNl;
     lit.DirectDiffuse = LutSSS(SSSTex, thickness, remapNl) * albedo.rgb; // 漫反射
     lit.DirectSpecular = specular * (nl - HALF_MIN_SQRT); // 镜面反射
 }
@@ -48,10 +51,11 @@ void KelemenSzirmayKalosBRDF(Texture2D SSSTex, Texture2D BRDFTex, float4 albedo,
 
  用于头发
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-void GGXAnisoHair(float4 albedo, float remapNl, float th, float bh, float nh, float roughT, float roughB, inout LitResultData lit)
+void GGXAnisoHair(float4 albedo, float remapNl, float th, float bh1, float bh2, float nh, float roughT1, float roughT2, float roughB1, float roughB2, float3 color1, float3 color2, inout LitResultData lit)
 {
     lit.DirectDiffuse = remapNl * albedo.rgb; // 漫反射
-    lit.DirectSpecular = GGXAniso(th, bh, nh, roughT, roughB); // 镜面反射
+    lit.DirectSpecular = GGXAniso(th, bh1, nh, roughT1, roughB1) * color1; // 镜面反射
+    lit.DirectSpecular += GGXAniso(th, bh2, nh, roughT2, roughB2) * color2; // 镜面反射
 }
 
 // < 间接光 > ==================================================================================================================================================================================================================================
